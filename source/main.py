@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 Eric Mikulin
 Computer Science IB Internal Assement
@@ -6,6 +8,7 @@ Python 2.7
 # Imports
 import Tkinter as tk
 
+# ############################################################################
 # Graphical Application class
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -18,6 +21,7 @@ class Application(tk.Frame):
             command=self.quit)
         self.quitButton.grid()
 
+# ############################################################################
 # Main method
 if __name__ == "__main__":
     print "works"

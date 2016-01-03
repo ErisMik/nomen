@@ -4,4 +4,4 @@ Field Notes: Computer Science IA
 January 2nd, 2016
 - Began research into the various APIs that I plan to use. 
 - Deciding what language to use, stuck betweeen Python, C++ or Java.
-- Starting to create the graphical outline
+- Starting to create the graphical outline of the program
