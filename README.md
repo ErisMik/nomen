@@ -20,6 +20,11 @@ Python 2.7
 ##### Libraries:
 - Python default library
 	- Tkinter (Graphics Library)
+	- json (JSON parsing library)
+- PIP libraries
+	- requests (HTTP requests Library)
+- Other libraries (link)
+	- 
 
 ### Licensing
 MIT License
