@@ -11,3 +11,5 @@ January 3rd, 2016
 - Tested grabbing the data, using curl requests and parsing data
 - Can't just grab steam friends list, must grab the list of friends and then check their status individually
 - In test.py I created a test to retrive and print out the status of the user's friends in steam
+- Apparently I struggle to understad JSON :P
+- Converted the Steam test into a library module
