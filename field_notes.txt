@@ -13,3 +13,6 @@ January 3rd, 2016
 - In test.py I created a test to retrive and print out the status of the user's friends in steam
 - Apparently I struggle to understad JSON :P
 - Converted the Steam test into a library module
+
+January 4th, 2016
+- 
