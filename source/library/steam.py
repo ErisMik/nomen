@@ -63,9 +63,9 @@ def get_all_friend_statuses(api_key, steam_id):
     output_friends_list = []
     for friend in friends_list:
         friend_id = friend["steamid"]
-        user = {get_persona_from_id(api_key, friend_id),
+        user = [get_persona_from_id(api_key, friend_id),
                 friend_id,
-                get_status_from_id(api_key, friend_id)}
+                get_status_from_id(api_key, friend_id)]
         print "{0} ({1}) : {2}".format(user[0], user[1], user[2])
         output_friends_list.append(user)
     return output_friends_list
