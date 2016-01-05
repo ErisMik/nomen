@@ -8,8 +8,10 @@ Python 2.7
 import requests
 
 # Constants
-GET_PLAYER_SUMMERIES_URL = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={key}&steamids={steamid}"
-GET_FRIENDS_LIST_URL = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key={key}&steamid={steamid}&relationship={relation}"
+GET_PLAYER_SUMMERIES_URL = ("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/"+
+                            "?key={key}&steamids={steamid}")
+GET_FRIENDS_LIST_URL = ("http://api.steampowered.com/ISteamUser/GetFriendList/v0001/"+
+                        "?key={key}&steamid={steamid}&relationship={relation}")
 
 def get_persona_from_id(api_key, steam_id):
     """Returns the username of a steam user from his steamid"""
