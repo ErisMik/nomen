@@ -33,12 +33,25 @@ MIT License
 ### Library Reference
 ##### Steam
 - get_persona_from_id(api_key, steam_id)
+	- Function
 	- """Returns the username of a steam user from his steamid"""
 - get_status_from_id(api_key, steam_id)
+	- Function
 	- """Returns the status of a steam user from his steamid"""
 - get_all_friend_statuses(api_key, steam_id)
+	- Function
 	- """Returns the statuses of all a steam users's (steam_id) friend"""
 
 ##### Tools
 - get_auth_key(service_name, file_path):
+	- Function
 	- """Get the Auth key of a certain API from a file"""
+
+##### Graphics
+- AppWindow(tk.Frame)
+	- Class
+- AppManager()
+	- Class
+
+### Other Refrence
+steam_id = "76561198041498934"

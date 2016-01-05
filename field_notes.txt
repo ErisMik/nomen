@@ -16,9 +16,12 @@ January 3rd, 2016
 
 January 4th, 2016
 - Worked on the graphical user interface
+- Got the API keys for GW2, Hipchat and Slack
 - Planned the user interface on paper
 - Following a Tkinter tutorial
 - Began to build the graphical user interface in the test.py
 - Tried to add a scrollbar to the window
 - Had to use a Listbox as the widget type because it is the only one that will allow me to scroll
 - Added tools.py to the library, added in a function to it that grabs the Auth key of a service
+- Moved the graphics from the test.py to a library module
+- Ran into difficulty getting the steam api calls to fit into the OOP graphical module
