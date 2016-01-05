@@ -15,4 +15,8 @@ January 3rd, 2016
 - Converted the Steam test into a library module
 
 January 4th, 2016
-- 
+- Worked on the graphical user interface
+- Planned the user interface on paper
+- Following a Tkinter tutorial
+- Began to build the graphical user interface in the test.py
+- Tried to add a scrollbar to the window

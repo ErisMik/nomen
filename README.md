@@ -24,7 +24,13 @@ Python 2.7
 - PIP libraries
 	- requests (HTTP requests Library)
 - Other libraries (link)
-	- 
+	- N/A
 
 ### Licensing
 MIT License
+
+### Library Reference
+- Steam
+	- get_persona_from_id(api_key, steam_id)
+	- get_status_from_id(api_key, steam_id)
+	- get_all_friend_statuses(api_key, steam_id)
