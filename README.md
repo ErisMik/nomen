@@ -21,6 +21,7 @@ Python 2.7
 - Python default library
 	- Tkinter (Graphics Library)
 	- json (JSON parsing library)
+	- os (Give OS tools)
 - PIP libraries
 	- requests (HTTP requests Library)
 - Other libraries (link)
@@ -30,7 +31,14 @@ Python 2.7
 MIT License
 
 ### Library Reference
-- Steam
-	- get_persona_from_id(api_key, steam_id)
-	- get_status_from_id(api_key, steam_id)
-	- get_all_friend_statuses(api_key, steam_id)
+##### Steam
+- get_persona_from_id(api_key, steam_id)
+	- """Returns the username of a steam user from his steamid"""
+- get_status_from_id(api_key, steam_id)
+	- """Returns the status of a steam user from his steamid"""
+- get_all_friend_statuses(api_key, steam_id)
+	- """Returns the statuses of all a steam users's (steam_id) friend"""
+
+##### Tools
+- get_auth_key(service_name, file_path):
+	- """Get the Auth key of a certain API from a file"""
