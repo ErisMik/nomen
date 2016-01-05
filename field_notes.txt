@@ -20,3 +20,5 @@ January 4th, 2016
 - Following a Tkinter tutorial
 - Began to build the graphical user interface in the test.py
 - Tried to add a scrollbar to the window
+- Had to use a Listbox as the widget type because it is the only one that will allow me to scroll
+- Added tools.py to the library, added in a function to it that grabs the Auth key of a service

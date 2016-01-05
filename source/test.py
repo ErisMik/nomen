@@ -6,7 +6,7 @@ Python 2.7
 
 import Tkinter as tk
 import os
-from library import steam
+from library import steam, tools
 
 # print "Everything working as of now!"
 
@@ -82,7 +82,7 @@ if __name__ == "__main__":
     view_list = tk.Listbox(window, selectmode=tk.BROWSE, bg="#808080")
     view_list.grid(column=1, row=1, sticky=tk.N+tk.S+tk.E+tk.W)
 
-    status_list = steam.get_all_friend_statuses("2F74399CD94CA945FA648A0C1B911DB6", "76561198041498934")
+    status_list = steam.get_all_friend_statuses(tools.get_auth_key("steam", "../apikeys_private.txt"), "76561198041498934")
 
     for friend in status_list:
         string = "{0} ({1})".format(friend[0], friend[2])
