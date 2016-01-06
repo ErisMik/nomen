@@ -13,6 +13,17 @@ GET_PLAYER_SUMMERIES_URL = ("http://api.steampowered.com/ISteamUser/GetPlayerSum
 GET_FRIENDS_LIST_URL = ("http://api.steampowered.com/ISteamUser/GetFriendList/v0001/"+
                         "?key={key}&steamid={steamid}&relationship={relation}")
 
+def get_data_from_ids(api_key, steam_ids):
+    """Gets the full dictionary of multiple users"""
+    # Perform the API request
+    ",".join(steam_ids)
+    api_data = requests.get(GET_PLAYER_SUMMERIES_URL.format(key=api_key, steamid=steam_ids))
+    api_data_json = api_data.json()
+    user_list = []
+    for user in api_data_json["response"]["players"]:  # Grab the inner data
+        user_list.append(user)
+    return user_list
+
 def get_persona_from_id(api_key, steam_id):
     """Returns the username of a steam user from his steamid"""
     # Perform the API request
@@ -28,11 +39,15 @@ def get_status_from_id(api_key, steam_id):
     api_data_json = api_data.json()
     user_dictionary = api_data_json["response"]["players"][0]  # Grab the inner data
 
+    return get_status_from_data(user_dictionary)
+
+def get_status_from_data(data):
+    """Returns the status of a steam user given the user data dictionary"""
     # Determine the status of the user
     status = "Unknown"
-    api_status = user_dictionary["personastate"]
+    api_status = data["personastate"]
     # Check if the user profile is set to private
-    if api_status == 0 and user_dictionary["communityvisibilitystate"] == 1:
+    if api_status == 0 and data["communityvisibilitystate"] == 1:
         status = "Private"
     # Check for the other statuses
     elif api_status == 0:
@@ -63,11 +78,17 @@ def get_all_friend_statuses(api_key, steam_id):
     # TODO: Make all the requests at a single time
     # Iterate through every friend, print then make into a list of dictionary
     output_friends_list = []
+    friend_ids_list = []
     for friend in friends_list:
         friend_id = friend["steamid"]
-        user = [get_persona_from_id(api_key, friend_id),
-                friend_id,
-                get_status_from_id(api_key, friend_id)]
+        friend_ids_list.append(friend_id)
+
+    friends_data = get_data_from_ids(api_key, friend_ids_list)
+
+    for friend in friends_data:
+        user = [friend["personaname"],
+                friend["steamid"],
+                get_status_from_data(friend)]
         print "{0} ({1}) : {2}".format(user[0], user[1], user[2])
         output_friends_list.append(user)
     return output_friends_list
