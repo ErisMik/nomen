@@ -6,14 +6,14 @@ Python 2.7
 
 import Tkinter as tk
 import os
-# import library.steam as steam
-# import library.tools as tools
+import library.steam as steam
+import library.tools as tools
 
 class AppWindow(tk.Frame):
     """Class that defines the main view window of the application"""
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        self.configure_frame()  # Configure the window frame 
+        self.configure_frame()  # Configure the window frame
 
         # Add the rest of the widgets
         self.option_panel_widget()
@@ -110,15 +110,31 @@ class AppWindow(tk.Frame):
         self.view_list = tk.Listbox(self, selectmode=tk.BROWSE, bg=bg_colour)
         self.view_list.grid(column=1, row=1, sticky=tk.N+tk.S+tk.E+tk.W)
 
-        # self.status_list = steam.get_all_friend_statuses(auth_key, steam_id)
-        # for friend in self.status_list:
-        #     string = "{0} ({1})".format(friend[0], friend[2])
-        #     self.view_list.insert(tk.END, string)
+    def update_statuses(self, current_data):
+        """Updates the list box (self.view_list) with the current entries"""
+        self.view_list.delete(0, tk.END)  # Clear the list
+        for friend in current_data["steam"]:
+            string = "{0} ({1})".format(friend[0], friend[2])
+            self.view_list.insert(tk.END, string)
+
+class OptionWindow(tk.Frame):
+    """Class that defines the options window of the application"""
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
 
 class AppManager():
     """Class that manages the application and it's windows"""
     def __init__(self):
         # Create a root window and add the application window as it's child
-        root = tk.Tk()
-        AppWindow(root).pack(side="top", fill="both", expand=True)
-        root.mainloop()
+        self.root = tk.Tk()
+        self.main_window = AppWindow(self.root)
+        self.main_window.pack(side="top", fill="both", expand=True)
+        self.root.after(1000, lambda: self.update())
+        self.root.mainloop()
+
+    def update(self):
+        """Updates all the statuses and adds this call to the main loop"""
+        all_status_list = {}
+        all_status_list["steam"] = steam.get_all_friend_statuses(tools.get_auth_key("steam", "files/apikeys_private.txt"), "76561198041498934")
+        self.main_window.update_statuses(all_status_list)
+        self.root.after(10000, lambda: self.update())
