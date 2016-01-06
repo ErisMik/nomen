@@ -25,3 +25,9 @@ January 4th, 2016
 - Added tools.py to the library, added in a function to it that grabs the Auth key of a service
 - Moved the graphics from the test.py to a library module
 - Ran into difficulty getting the steam api calls to fit into the OOP graphical module
+
+January 5th, 2016
+- Got a client (Peter Fajner) to test it on his windows 10 machine
+- The buttons are the incorrect colour, this will need to be fixed
+- Got the steam api calls into the Tkinter update loop
+- Optimized the steam API call to make a single call for all entries rather than two calls per entry

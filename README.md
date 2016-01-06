@@ -28,16 +28,22 @@ Python 2.7
 	- N/A
 
 ### Licensing
-MIT License
+I'm not actually sure
 
 ### Library Reference
 ##### Steam
+- def get_data_from_ids(api_key, steam_ids)
+	- Function
+    - """Gets the full dictionary of multiple users"""
 - get_persona_from_id(api_key, steam_id)
 	- Function
 	- """Returns the username of a steam user from his steamid"""
 - get_status_from_id(api_key, steam_id)
 	- Function
 	- """Returns the status of a steam user from his steamid"""
+- def get_status_from_data(data)
+	- Function
+    - """Returns the status of a steam user given the user data dictionary"""
 - get_all_friend_statuses(api_key, steam_id)
 	- Function
 	- """Returns the statuses of all a steam users's (steam_id) friend"""
@@ -49,6 +55,8 @@ MIT License
 
 ##### Graphics
 - AppWindow(tk.Frame)
+	- Class
+- OptionWindow()
 	- Class
 - AppManager()
 	- Class

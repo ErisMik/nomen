@@ -16,11 +16,12 @@ GET_FRIENDS_LIST_URL = ("http://api.steampowered.com/ISteamUser/GetFriendList/v0
 def get_data_from_ids(api_key, steam_ids):
     """Gets the full dictionary of multiple users"""
     # Perform the API request
-    ",".join(steam_ids)
+    ",".join(steam_ids)  # Convert the list into a string of ids separated by commas
     api_data = requests.get(GET_PLAYER_SUMMERIES_URL.format(key=api_key, steamid=steam_ids))
     api_data_json = api_data.json()
     user_list = []
-    for user in api_data_json["response"]["players"]:  # Grab the inner data
+    # Convert the JSON into a list of dictionaries
+    for user in api_data_json["response"]["players"]:
         user_list.append(user)
     return user_list
 
@@ -38,7 +39,6 @@ def get_status_from_id(api_key, steam_id):
     api_data = requests.get(GET_PLAYER_SUMMERIES_URL.format(key=api_key, steamid=steam_id))
     api_data_json = api_data.json()
     user_dictionary = api_data_json["response"]["players"][0]  # Grab the inner data
-
     return get_status_from_data(user_dictionary)
 
 def get_status_from_data(data):
@@ -75,16 +75,17 @@ def get_all_friend_statuses(api_key, steam_id):
     print api_data_json
     friends_list = api_data_json["friendslist"]["friends"]  # Grab the inner data
 
-    # TODO: Make all the requests at a single time
-    # Iterate through every friend, print then make into a list of dictionary
-    output_friends_list = []
+    # For every friend, retrieve just the steam_id and add it to a list
     friend_ids_list = []
     for friend in friends_list:
         friend_id = friend["steamid"]
         friend_ids_list.append(friend_id)
 
+    # Get the data form the list of ids
     friends_data = get_data_from_ids(api_key, friend_ids_list)
 
+    # Create the list of output strings using the data retrieved earlier
+    output_friends_list = []
     for friend in friends_data:
         user = [friend["personaname"],
                 friend["steamid"],

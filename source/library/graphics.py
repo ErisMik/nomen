@@ -127,14 +127,21 @@ class AppManager():
     def __init__(self):
         # Create a root window and add the application window as it's child
         self.root = tk.Tk()
-        self.main_window = AppWindow(self.root)
-        self.main_window.pack(side="top", fill="both", expand=True)
-        self.root.after(1000, lambda: self.update())
-        self.root.mainloop()
+        self.main_window = AppWindow(self.root)  # Create the ain window
+        self.main_window.pack(side="top", fill="both", expand=True)  # Add it to the root frame
+        # self.root.after(1000, lambda: self.update())  # Create a job to update statuses 1 sec from now
+        self.root.after(1000, self.update)  # Create a job to update statuses 1 sec from now
+        self.root.mainloop()  # Start the application
 
     def update(self):
         """Updates all the statuses and adds this call to the main loop"""
         all_status_list = {}
-        all_status_list["steam"] = steam.get_all_friend_statuses(tools.get_auth_key("steam", "files/apikeys_private.txt"), "76561198041498934")
+
+        # Get the statuses from Steam
+        steam_auth_key = tools.get_auth_key("steam", "files/apikeys_private.txt")
+        all_status_list["steam"] = steam.get_all_friend_statuses(steam_auth_key,
+                                                                 "76561198041498934")
+
+        # Add the statuses to the window, then create a job to do this again in 10 seconds
         self.main_window.update_statuses(all_status_list)
-        self.root.after(10000, lambda: self.update())
+        self.root.after(10000, self.update)
