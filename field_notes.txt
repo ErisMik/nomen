@@ -31,3 +31,7 @@ January 5th, 2016
 - The buttons are the incorrect colour, this will need to be fixed
 - Got the steam api calls into the Tkinter update loop
 - Optimized the steam API call to make a single call for all entries rather than two calls per entry
+
+January 6th, 2016
+- Minor cleanup
+- Began to work on testing another api with the app (League of Legends)

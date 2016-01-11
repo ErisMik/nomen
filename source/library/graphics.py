@@ -112,7 +112,12 @@ class AppWindow(tk.Frame):
 
     def update_statuses(self, current_data):
         """Updates the list box (self.view_list) with the current entries"""
-        self.view_list.delete(0, tk.END)  # Clear the list
+        # Sort the data alphanumerically
+        current_data["steam"] = sorted(current_data["steam"])
+
+        self.view_list.delete(0, tk.END)  # Clear the list of it's entries
+
+        self.view_list.insert(tk.END, "------------------------ Steam ----------------------")
         for friend in current_data["steam"]:
             string = "{0} ({1})".format(friend[0], friend[2])
             self.view_list.insert(tk.END, string)

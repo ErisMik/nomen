@@ -30,6 +30,11 @@ Python 2.7
 ### Licensing
 I'm not actually sure
 
+### Limitations
+- GW2: Can't get friends list
+- League: Can't get friends list
+- 
+
 ### Library Reference
 ##### Steam
 - def get_data_from_ids(api_key, steam_ids)
