@@ -1,0 +1,18 @@
+Works Cited
+===========
+
+Api References
+- Facebook API (https://developers.facebook.com)
+- Guild Wars 2 API (https://wiki.guildwars2.com/wiki/API:Main)
+- Hipchat API (https://www.hipchat.com/docs/apiv2)
+- League of Legends API (https://developer.riotgames.com/)
+- Skype API (https://msdn.microsoft.com/en-us/library/mt124990.aspx)
+- Slack API (https://api.slack.com/)
+- Steam API (https://steamcommunity.com/dev)
+
+Image References
+- Gear Icon (https://upload.wikimedia.org/wikipedia/commons/7/77/Gear_icon.svg)
+- Steam Icon (http://vignette4.wikia.nocookie.net/fallout/images/3/3b/Steam-Logo.png/revision/latest?cb=20130607061922)
+
+Tutorial References
+- TKinter tutorial (http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/index.html)
