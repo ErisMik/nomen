@@ -35,3 +35,6 @@ January 5th, 2016
 January 6th, 2016
 - Minor cleanup
 - Began to work on testing another api with the app (League of Legends)
+
+January 12th
+- Tried out a CI server to do build testing, didn't work out so I reverted my changes

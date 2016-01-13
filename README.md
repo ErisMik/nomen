@@ -33,7 +33,6 @@ I'm not actually sure
 ### Limitations
 - GW2: Can't get friends list
 - League: Can't get friends list
-- 
 
 ### Library Reference
 ##### Steam
