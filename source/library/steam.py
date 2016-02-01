@@ -72,7 +72,7 @@ def get_all_friend_statuses(api_key, steam_id):
     api_data = requests.get(GET_FRIENDS_LIST_URL.format(key=api_key,
                                                         steamid=steam_id, relation="friend"))
     api_data_json = api_data.json()
-    print api_data_json
+    # print api_data_json
     friends_list = api_data_json["friendslist"]["friends"]  # Grab the inner data
 
     # For every friend, retrieve just the steam_id and add it to a list
@@ -90,6 +90,6 @@ def get_all_friend_statuses(api_key, steam_id):
         user = [friend["personaname"],
                 friend["steamid"],
                 get_status_from_data(friend)]
-        print "{0} ({1}) : {2}".format(user[0], user[1], user[2])
+        # print "{0} ({1}) : {2}".format(user[0], user[1], user[2])
         output_friends_list.append(user)
     return output_friends_list

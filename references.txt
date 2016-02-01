@@ -13,6 +13,7 @@ Api References
 Image References
 - Gear Icon (https://upload.wikimedia.org/wikipedia/commons/7/77/Gear_icon.svg)
 - Steam Icon (http://vignette4.wikia.nocookie.net/fallout/images/3/3b/Steam-Logo.png/revision/latest?cb=20130607061922)
+- League icon (https://yt3.ggpht.com/-UHcRyzejL1U/AAAAAAAAAAI/AAAAAAAAAAA/ucobkN7xTco/s900-c-k-no/photo.jpg)
 
 Tutorial References
 - TKinter tutorial (http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/index.html)

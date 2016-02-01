@@ -36,5 +36,9 @@ January 6th, 2016
 - Minor cleanup
 - Began to work on testing another api with the app (League of Legends)
 
-January 12th
+January 12th, 2016
 - Tried out a CI server to do build testing, didn't work out so I reverted my changes
+
+January 31st, 2016
+- Started implemeting the League API into a library module
+- Had to determine a workaround because League doesn't allow you to get them directly

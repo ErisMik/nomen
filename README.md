@@ -31,12 +31,11 @@ Python 2.7
 I'm not actually sure
 
 ### Limitations
-- GW2: Can't get friends list
-- League: Can't get friends list
+- League: Can't get friends list, worked around by finding players that a user often plays with, and determines if the are in a gmae or played recently
 
 ### Library Reference
 ##### Steam
-- def get_data_from_ids(api_key, steam_ids)
+- get_data_from_ids(api_key, steam_ids)
 	- Function
     - """Gets the full dictionary of multiple users"""
 - get_persona_from_id(api_key, steam_id)
@@ -51,6 +50,9 @@ I'm not actually sure
 - get_all_friend_statuses(api_key, steam_id)
 	- Function
 	- """Returns the statuses of all a steam users's (steam_id) friend"""
+
+#### League of Legends
+- 
 
 ##### Tools
 - get_auth_key(service_name, file_path):
@@ -67,3 +69,4 @@ I'm not actually sure
 
 ### Other Refrence
 steam_id = "76561198041498934"
+summoner_id = "36402541"

@@ -16,5 +16,5 @@ def get_auth_key(service_name, file_path):
     # ... return the key (next line) when found
     for X in range(0, len(keys)):
         if service_name.lower() in keys[X].lower():
-            print keys[X+1].strip()
+            # print keys[X+1].strip()
             return keys[X+1].strip()
