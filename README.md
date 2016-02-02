@@ -52,7 +52,24 @@ I'm not actually sure
 	- """Returns the statuses of all a steam users's (steam_id) friend"""
 
 #### League of Legends
-- 
+- get_friends_from_id(api_key, summoner_id)
+	- Function
+	- """Determine the friends of a user by looking at recent games, then returns the friends data"""
+- get_friends_from_file(file_path)
+	- Function
+	- """Gets a list of friends from a file"""
+- get_data_from_id(api_key, friend_list)
+	- Function
+	- """Get the summoner data from a list of friend ids"""
+- test_for_current_game(api_key, summoner_id)
+	- Function
+	- """Returns a string that is the current status of a user"""
+- test_for_recent_game(api_key, summoner_id)
+	- Function
+	- """Returns a string that is the current status of a user"""
+- get_all_friend_statuses(api_key, summoner_id)
+	- Function
+	- """Returns the statuses of all a league of legends user's friends"""
 
 ##### Tools
 - get_auth_key(service_name, file_path):

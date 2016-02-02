@@ -22,11 +22,13 @@ def get_friends_from_id(api_key, summoner_id):
     all_recent_games = requests.get(GET_RECENT_GAMES_URL.format(key=api_key, summonid=summoner_id))
     all_recent_games_json = all_recent_games.json()
     all_fellow_players = []
+    # Find all the players the user has played with in thier recent games
     for game in all_recent_games_json["games"]:
         if "fellowPlayers" in game:
             for fellow_player in game["fellowPlayers"]:
                 all_fellow_players.append(fellow_player["summonerId"])
 
+    # Find duplicates and keep them because they're assumed friends
     # TODO: Extremely iniffecient, replace soon
     all_friends = [item for item, count in collections.Counter(all_fellow_players).items() if count > 1]
     for x in range(0, len(all_friends)):
@@ -41,8 +43,7 @@ def get_friends_from_file(file_path):
 
 def get_data_from_id(api_key, friend_list):
     """Get the summoner data from a list of friend ids"""
-    formatted_friend_list = ",".join(friend_list)
-
+    formatted_friend_list = ",".join(friend_list)  # Format the names to be put into the API request
     all_friend_data = requests.get(GET_SUMMONER_DATA_URL.format(summonid=formatted_friend_list,
                                                                 key=api_key))
     all_friend_data_json = all_friend_data.json()
@@ -53,8 +54,8 @@ def test_for_current_game(api_key, summoner_id):
     current_game = requests.get(GET_CURRENT_GAME_URL.format(key=api_key, summonid=summoner_id))
     current_game_json = current_game.json()
     response = "Away"
-    if "gameId" in current_game_json:
-        response = "In game"
+    if "gameId" in current_game_json:  # If the current game returns a game (instead of 404)
+        response = "In game"  # Set status appropriately
     return response
 
 def test_for_recent_game(api_key, summoner_id):
@@ -63,41 +64,55 @@ def test_for_recent_game(api_key, summoner_id):
     recent_games_json = recent_games.json()
     # Gather the data
     most_recent_game = recent_games_json["games"][0]
-    start_time = most_recent_game["createDate"]  # Milliseconds since epoch (Asuming unix epoch)
+    start_time = most_recent_game["createDate"] * 0.001  # Milliseconds since epoch (Asuming unix epoch)
+    # print "start in ms: " + str(start_time)
     current_time = time.time()  # Seconds since epoch (Assuming Unix epoch)
+    # print "current in s: " + str(current_time)
     play_time = most_recent_game["stats"]["timePlayed"]  # In seconds
+    # print "play tim in s: " + str(play_time)
 
     # Do the Math
-    start_time = start_time / 1000  # Convert to seconds
+    # TODO: Something causes the math to be a few minutes off, need to investigate
+    # start_time = start_time * 0.001  # Convert to seconds
+    # print "start in s: " + str(start_time)
     end_time = start_time + play_time  # Find the end time of the game
+    # print "end in s: " + str(end_time)
     time_since = current_time - end_time  # Determine how long ago the game was
-    time_since = time_since / 60  # Convert back to minutes
+    # print "time since in s: " + str(time_since)
+    time_since = time_since / 60  # Convert to minutes
+    # print "time since in m: " + str(time_since)
+    # print "=========="
 
+    # Determine what status to return to the user
     response = "Offline"
     if time_since < 10:
         response = "Played {0} mins ago".format(int(time_since))
+    elif time_since < 15:
+        response = "Away"
 
     return response
 
 def get_all_friend_statuses(api_key, summoner_id):
     """Returns the statuses of all a league of legends user's friends"""
-    # Determine friends (Played more than one games with)
+    # Determine friends (Played more than one games with recently)
     determined_friends = get_friends_from_id(api_key, summoner_id)
 
-    # Read pre-set friends
+    # Read pre-set friends from a file
     read_friends = get_friends_from_file("files/league_friends_private.txt")
 
-    # Find summoner data
+    # Merge the two friends lists together
     all_friends = determined_friends
     if read_friends:
-        all_friends += read_friends  # Merge the friend lists together
+        all_friends += read_friends
+
+    # Get the friend data from the friend summoner ids
     friend_data = get_data_from_id(api_key, all_friends)
 
-    # Are friends in game?
+    # Check if the friends are currently in game, and set status
     for friend in friend_data:
         friend_data[friend]["status"] = test_for_current_game(api_key, friend)
 
-    # Last Game friends played
+    # Check the friends most recent game, and set status based on that
     for friend in friend_data:
         new_status = test_for_recent_game(api_key, friend)
         if "In game" not in friend_data[friend]["status"]:
@@ -107,7 +122,7 @@ def get_all_friend_statuses(api_key, summoner_id):
     # for friend in friend_data:
     #     print friend_data[friend]["name"] + " - " + str(friend_data[friend]["id"]) + " - " + friend_data[friend]["status"]
 
-    # Return statuses
+    # Convert to standard data format and the return
     output_friends_list = []
     for friend in friend_data:
         user = [friend_data[friend]["name"],
