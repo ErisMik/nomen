@@ -22,6 +22,7 @@ Python 2.7
 	- Tkinter (Graphics Library)
 	- json (JSON parsing library)
 	- os (Give OS tools)
+    - time (Tools to get info on current time)
 - PIP libraries
 	- requests (HTTP requests Library)
 - Other libraries (link)
