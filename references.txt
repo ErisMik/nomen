@@ -1,6 +1,13 @@
 Works Cited
 ===========
 
+Library References
+- requests [pip] (http://docs.python-requests.org/en/master/)
+
+Tools References
+- py2exe
+- py2app (https://pythonhosted.org/py2app/)
+
 Api References
 - Facebook API (https://developers.facebook.com)
 - Guild Wars 2 API (https://wiki.guildwars2.com/wiki/API:Main)

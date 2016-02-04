@@ -42,3 +42,9 @@ January 12th, 2016
 January 31st, 2016
 - Started implemeting the League API into a library module
 - Had to determine a workaround because League doesn't allow you to get them directly
+- Finished implementing the League API into the library module
+- Got the league module working with the full application
+
+February 3rd, 2016
+- Implementing changes in order to get py2app working so that I can distribute my application easier
+- testing getting py2app working, unsuccessful getting a working build but making progress
