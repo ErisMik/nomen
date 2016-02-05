@@ -177,7 +177,7 @@ class AppManager():
 
         self.root.mainloop()  # Start the application
 
-    def update(self):
+    def update(self, delay=10):
         """Updates all the statuses and adds this call to the main loop"""
         while True:
             all_status_list = {}
@@ -197,4 +197,4 @@ class AppManager():
 
             # Add the statuses to the window, then create a job to do this again in 10 seconds
             self.main_window.update_statuses(all_status_list)
-            time.sleep(10)
+            time.sleep(delay)

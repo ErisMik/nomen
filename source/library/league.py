@@ -152,7 +152,8 @@ def get_all_friend_statuses(api_key, summoner_id):
 
     # Check the friends most recent game, and set status based on that
     for friend in friend_data:
-        # time.sleep(5)  # This prevents me from breaching the 10 api calls per 10 seconds rule
+        # TODO: Make the delay as efficient as possible
+        time.sleep(5)  # This is a quick and dirty way to prevent me from breaching the 10 api calls per 10 seconds rule
         new_status = test_for_recent_game(api_key, friend)
         if "In game" not in friend_data[friend]["status"]:
             friend_data[friend]["status"] = new_status

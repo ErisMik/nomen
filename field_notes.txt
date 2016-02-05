@@ -54,3 +54,7 @@ Febuary 4th, 2016
 - Tried bug fixing the read files
 - Bug turned out to be that the league api limits me to 10 api calls per 10 seconds, and I've violated that by accidently having more than 4 friends
 - Branched git to work on threading the program so I can limit the API calls easier
+- Multithreading basics done
+- Python is basically cheating
+- Improving the API calls using qeues
+- GIT Exploded so I just moved all my code to the master branch and deleted the other branches
