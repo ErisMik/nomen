@@ -56,6 +56,9 @@ I'm not actually sure
 - get_friends_from_id(api_key, summoner_id)
 	- Function
 	- """Determine the friends of a user by looking at recent games, then returns the friends data"""
+- get_id_from_name(api_key, summoner_name)
+	- Function
+	- """Gets the summoner id form the summoner name"""
 - get_friends_from_file(file_path)
 	- Function
 	- """Gets a list of friends from a file"""
