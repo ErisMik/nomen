@@ -47,14 +47,19 @@ def get_id_from_name(api_key, summoner_name):
 
 def get_friends_from_file(api_key, file_path):
     """Gets a list of friends from a file"""
+    # Read all the lines and store them into a list
     all_friends = []
     with open(file_path, 'r') as f_file:
         for line in f_file:
             all_friends.append(line.strip())
+    # For each line, read the summoner_id or api call for it
     for friend in range(0, len(all_friends)):
-        data = all_friends.pop(friend).split("=")
+        data = all_friends.pop(friend).split("=")  # Split the key value pairs
+        # Strip out all the whitespace
         for item in range(0, len(data)):
             data[item] = data[item].strip()
+        # If the ID is not known, make an API call for it
+        # Else use the one written in the file
         if "?" in data[1]:
             data[1] = "="
             data.append(str(get_id_from_name(api_key, data[0])))
@@ -63,15 +68,16 @@ def get_friends_from_file(api_key, file_path):
             data[1] = "="
         data.append("\n")
         all_friends.insert(0, " ".join(data))
+    # Write all the lines back into the file, this way the unknown ids are written in
     with open(file_path, "w") as f_file:
         for data in all_friends:
             f_file.write(data)
 
+    # Format the data to be returned
     output_data = []
     for friend in all_friends:
         output_data.append(str(friend.split("=")[1].strip()))
-
-    return output_data
+    return output_data  # Return data
 
 def get_data_from_id(api_key, friend_list):
     """Get the summoner data from a list of friend ids"""
