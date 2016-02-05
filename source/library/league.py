@@ -8,12 +8,15 @@ Python 2.7
 import requests
 import time
 import collections
+from library import tools
 
 # Constants
 GET_RECENT_GAMES_URL = ("https://na.api.pvp.net/api/lol/na/v1.3/game/by-summoner/{summonid}/recent"+
                         "?api_key={key}")
 GET_SUMMONER_DATA_URL = ("https://na.api.pvp.net/api/lol/na/v1.4/summoner/{summonid}"+
                          "?api_key={key}")
+GET_SUMMONER_ID_URL = ("https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/{name}"+
+                       "?api_key={key}")
 GET_CURRENT_GAME_URL = ("https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/{summonid}"+
                         "?api_key={key}")
 
@@ -36,10 +39,39 @@ def get_friends_from_id(api_key, summoner_id):
 
     return all_friends
 
-def get_friends_from_file(file_path):
+def get_id_from_name(api_key, summoner_name):
+    """Gets the summoner id form the summoner name"""
+    summoner_data = requests.get(GET_SUMMONER_ID_URL.format(key=api_key, name=summoner_name))
+    summoner_data = summoner_data.json()
+    return summoner_data[summoner_name]["id"]
+
+def get_friends_from_file(api_key, file_path):
     """Gets a list of friends from a file"""
-    # TODO: The actual code
-    return
+    all_friends = []
+    with open(file_path, 'r') as f_file:
+        for line in f_file:
+            all_friends.append(line.strip())
+    for friend in range(0, len(all_friends)):
+        data = all_friends.pop(friend).split("=")
+        for item in range(0, len(data)):
+            data[item] = data[item].strip()
+        if "?" in data[1]:
+            data[1] = "="
+            data.append(str(get_id_from_name(api_key, data[0])))
+        else:
+            data.append(data[1])
+            data[1] = "="
+        data.append("\n")
+        all_friends.insert(0, " ".join(data))
+    with open(file_path, "w") as f_file:
+        for data in all_friends:
+            f_file.write(data)
+
+    output_data = []
+    for friend in all_friends:
+        output_data.append(str(friend.split("=")[1].strip()))
+
+    return output_data
 
 def get_data_from_id(api_key, friend_list):
     """Get the summoner data from a list of friend ids"""
@@ -98,7 +130,7 @@ def get_all_friend_statuses(api_key, summoner_id):
     determined_friends = get_friends_from_id(api_key, summoner_id)
 
     # Read pre-set friends from a file
-    read_friends = get_friends_from_file("files/league_friends_private.txt")
+    read_friends = get_friends_from_file(api_key, "files/league_friends_private.txt")
 
     # Merge the two friends lists together
     all_friends = determined_friends
@@ -114,6 +146,7 @@ def get_all_friend_statuses(api_key, summoner_id):
 
     # Check the friends most recent game, and set status based on that
     for friend in friend_data:
+        # time.sleep(5)  # This prevents me from breaching the 10 api calls per 10 seconds rule
         new_status = test_for_recent_game(api_key, friend)
         if "In game" not in friend_data[friend]["status"]:
             friend_data[friend]["status"] = new_status
