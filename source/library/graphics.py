@@ -6,6 +6,8 @@ Python 2.7
 
 import Tkinter as tk
 import os
+import thread
+import time
 import library.steam as steam
 import library.league as league
 import library.tools as tools
@@ -166,27 +168,33 @@ class AppManager():
         self.root = tk.Tk()
         self.main_window = AppWindow(self.root)  # Create the ain window
         self.main_window.pack(side="top", fill="both", expand=True)  # Add it to the root frame
-        # self.root.after(1000, lambda: self.update())  # Create a job to update statuses 1 sec from now
-        self.root.after(1000, self.update)  # Create a job to update statuses 1 sec from now
+
+        # Attempting to thread the update cycle
+        try:
+            thread.start_new_thread(self.update, ())
+        except Exception as e:
+            print("The thread done broke itself: ", e)
+
         self.root.mainloop()  # Start the application
 
     def update(self):
         """Updates all the statuses and adds this call to the main loop"""
-        all_status_list = {}
+        while True:
+            all_status_list = {}
 
-        steam_id_temp = "76561198041498934"
-        league_id_temp = "36402541"
+            steam_id_temp = "76561198041498934"
+            league_id_temp = "36402541"
 
-        # Get the statuses from Steam
-        steam_auth_key = tools.get_auth_key("steam", "files/apikeys_private.txt")
-        all_status_list["steam"] = steam.get_all_friend_statuses(steam_auth_key,
-                                                                 steam_id_temp)
+            # Get the statuses from Steam
+            steam_auth_key = tools.get_auth_key("steam", "files/apikeys_private.txt")
+            all_status_list["steam"] = steam.get_all_friend_statuses(steam_auth_key,
+                                                                     steam_id_temp)
 
-        # Get the statuses from League of Legends
-        league_auth_key = tools.get_auth_key("league", "files/apikeys_private.txt")
-        all_status_list["league"] = league.get_all_friend_statuses(league_auth_key,
-                                                                   league_id_temp)
+            # Get the statuses from League of Legends
+            league_auth_key = tools.get_auth_key("league", "files/apikeys_private.txt")
+            all_status_list["league"] = league.get_all_friend_statuses(league_auth_key,
+                                                                       league_id_temp)
 
-        # Add the statuses to the window, then create a job to do this again in 10 seconds
-        self.main_window.update_statuses(all_status_list)
-        self.root.after(10000, self.update)
+            # Add the statuses to the window, then create a job to do this again in 10 seconds
+            self.main_window.update_statuses(all_status_list)
+            time.sleep(10)
