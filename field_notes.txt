@@ -48,3 +48,9 @@ January 31st, 2016
 February 3rd, 2016
 - Implementing changes in order to get py2app working so that I can distribute my application easier
 - testing getting py2app working, unsuccessful getting a working build but making progress
+
+Febuary 4th, 2016
+- Added the actual code to get the set friends for the league api
+- Tried bug fixing the read files
+- Bug turned out to be that the league api limits me to 10 api calls per 10 seconds, and I've violated that by accidently having more than 4 friends
+- Branched git to work on threading the program so I can limit the API calls easier
