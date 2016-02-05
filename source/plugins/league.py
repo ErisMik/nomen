@@ -8,7 +8,6 @@ Python 2.7
 import requests
 import time
 import collections
-from library import tools
 
 # Constants
 GET_RECENT_GAMES_URL = ("https://na.api.pvp.net/api/lol/na/v1.3/game/by-summoner/{summonid}/recent"+
