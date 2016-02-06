@@ -8,8 +8,8 @@ import Tkinter as tk
 import os
 import thread
 import time
-# import plugins.steam as steam
-# import plugins.league as league
+import plugins.steam as steam
+import plugins.league as league
 import library.tools as tools
 
 class AppWindow(tk.Frame):
@@ -169,9 +169,9 @@ class AppManager():
         self.main_window = AppWindow(self.root)  # Create the ain window
         self.main_window.pack(side="top", fill="both", expand=True)  # Add it to the root frame
 
-        module_names = ["plugins.steam", "plugins.league"]
-        app_modules = map(__import__, module_names)
-        print app_modules
+        # module_names = ["plugins.steam", "plugins.league"]
+        # app_modules = map(__import__, module_names)
+        # print app_modules
 
         # Attempting to thread the update cycle
         try:

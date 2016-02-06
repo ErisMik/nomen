@@ -61,3 +61,4 @@ February 4th, 2016
 
 February 5th, 2016
 - Branched my git code to begin working on the plugins feature of the program
+- League appears to be 25 minutes ahead of my computer? Will need to hardcode in an adjustment
