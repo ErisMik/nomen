@@ -66,4 +66,8 @@ February 5th, 2016
 February 7th, 2016
 - Continued to work on the plugins system
 - Determined how to dynamically import modules
-- 
+- Listed directory and dynamically imported all files from it (plugins)
+- Used each of the dynamically imported plugins to read statuses
+- Dynamically printed the statuses into main window
+- This changed the headers of the sections as they are no longer hardcoded, I will need to pass along an additional piece of information
+- Minor cleanup

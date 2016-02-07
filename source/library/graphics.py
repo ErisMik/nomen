@@ -8,8 +8,6 @@ import Tkinter as tk
 import os
 import thread
 import time
-# import plugins.steam as steam
-import plugins.league as league
 import library.tools as tools
 
 class AppWindow(tk.Frame):
@@ -124,22 +122,18 @@ class AppWindow(tk.Frame):
     def update_statuses(self, current_data):
         """Updates the list box (self.view_list) with the current entries"""
         # Sort the data alphanumerically
-        current_data["steam"] = sorted(current_data["steam"])
-        current_data["league"] = sorted(current_data["league"])
+        for service in current_data:
+            current_data[service] = sorted(current_data[service])
 
         self.view_list.delete(0, tk.END)  # Clear the list of it's entries
 
-        self.view_list.insert(tk.END, "------------------------ Steam ----------------------")
-        for friend in current_data["steam"]:
-            string = "{0} ({1})".format(friend[0], friend[2])
-            self.view_list.insert(tk.END, string)
-        print "Steam Printed"
-
-        self.view_list.insert(tk.END, "------------------ League of Legends ----------------")
-        for friend in current_data["league"]:
-            string = "{0} ({1})".format(friend[0], friend[2])
-            self.view_list.insert(tk.END, string)
-        print "League Prtined"
+        # Print the statuses of every service here
+        for service in current_data:
+            self.view_list.insert(tk.END, "------------------------ %s ----------------------" % service.capitalize())
+            for friend in current_data[service]:
+                string = "{0} ({1})".format(friend[0], friend[2])
+                self.view_list.insert(tk.END, string)
+            print "%s printed" % service
 
         print "============== Update Cycle Finish =============="
 
@@ -169,8 +163,16 @@ class AppManager():
         self.main_window = AppWindow(self.root)  # Create the ain window
         self.main_window.pack(side="top", fill="both", expand=True)  # Add it to the root frame
 
-        self.steam_module = __import__("plugins.steam", fromlist=["plugins"])
-        print self.steam_module
+        # Read all the plugin names
+        plugin_list = []
+        for file in os.listdir("./plugins"):
+            if file.endswith(".py") and "__init__" not in file:
+                plugin_list.append(file.split(".")[0])
+
+        # Import the plugins from the plugin names
+        self.service_modules = {}
+        for plugin_name in plugin_list:
+            self.service_modules[plugin_name] = __import__("plugins.{0}".format(plugin_name), fromlist=["plugins"])
 
         # Attempting to thread the update cycle
         try:
@@ -185,20 +187,19 @@ class AppManager():
         while True:
             all_status_list = {}
 
-            steam_id_temp = "76561198041498934"
-            league_id_temp = "36402541"
+            # TODO: Replace this with a function from library.tools 
+            ids = {
+                "steam" : "76561198041498934",
+                "league" : "36402541"
+            }
 
-            # Get the statuses from Steam
-            steam_auth_key = tools.get_auth_key("steam", "files/apikeys_private.txt")
-            all_status_list["steam"] = self.steam_module.get_all_friend_statuses(steam_auth_key,
-                                                                     steam_id_temp)
-            print("Steam Updated")
-
-            # Get the statuses from League of Legends
-            league_auth_key = tools.get_auth_key("league", "files/apikeys_private.txt")
-            all_status_list["league"] = league.get_all_friend_statuses(league_auth_key,
-                                                                       league_id_temp)
-            print("League Updated")
+            # Get the statuses from every module
+            for module in self.service_modules:
+                print("%s next ..." % module)
+                auth_key = tools.get_auth_key(module, "files/apikeys_private.txt")
+                all_status_list[module] = self.service_modules[module].get_all_friend_statuses(auth_key,
+                                                                     ids[module])
+                print("... %s updated" % module)
 
             # Add the statuses to the window, then create a job to do this again in 10 seconds
             self.main_window.update_statuses(all_status_list)
