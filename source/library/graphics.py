@@ -8,7 +8,7 @@ import Tkinter as tk
 import os
 import thread
 import time
-import plugins.steam as steam
+# import plugins.steam as steam
 import plugins.league as league
 import library.tools as tools
 
@@ -32,9 +32,9 @@ class AppWindow(tk.Frame):
 
         # Prepare the columns and rows
         self.columnconfigure(0, minsize=50, weight=0)
-        self.columnconfigure(1, minsize=200, weight=1)
+        self.columnconfigure(1, minsize=250, weight=1)
         self.rowconfigure(0, minsize=50, weight=0)
-        self.rowconfigure(1, minsize=200, weight=1)
+        self.rowconfigure(1, minsize=400, weight=1)
 
     def option_panel_widget(self, bg_colour="#000000"):
         """Method that creates, configures and fills the options widget"""
@@ -133,13 +133,13 @@ class AppWindow(tk.Frame):
         for friend in current_data["steam"]:
             string = "{0} ({1})".format(friend[0], friend[2])
             self.view_list.insert(tk.END, string)
-        print "Steam Updated"
+        print "Steam Printed"
 
         self.view_list.insert(tk.END, "------------------ League of Legends ----------------")
         for friend in current_data["league"]:
             string = "{0} ({1})".format(friend[0], friend[2])
             self.view_list.insert(tk.END, string)
-        print "League Updated"
+        print "League Prtined"
 
         print "============== Update Cycle Finish =============="
 
@@ -169,9 +169,8 @@ class AppManager():
         self.main_window = AppWindow(self.root)  # Create the ain window
         self.main_window.pack(side="top", fill="both", expand=True)  # Add it to the root frame
 
-        # module_names = ["plugins.steam", "plugins.league"]
-        # app_modules = map(__import__, module_names)
-        # print app_modules
+        self.steam_module = __import__("plugins.steam", fromlist=["plugins"])
+        print self.steam_module
 
         # Attempting to thread the update cycle
         try:
@@ -191,13 +190,15 @@ class AppManager():
 
             # Get the statuses from Steam
             steam_auth_key = tools.get_auth_key("steam", "files/apikeys_private.txt")
-            all_status_list["steam"] = steam.get_all_friend_statuses(steam_auth_key,
+            all_status_list["steam"] = self.steam_module.get_all_friend_statuses(steam_auth_key,
                                                                      steam_id_temp)
+            print("Steam Updated")
 
             # Get the statuses from League of Legends
             league_auth_key = tools.get_auth_key("league", "files/apikeys_private.txt")
             all_status_list["league"] = league.get_all_friend_statuses(league_auth_key,
                                                                        league_id_temp)
+            print("League Updated")
 
             # Add the statuses to the window, then create a job to do this again in 10 seconds
             self.main_window.update_statuses(all_status_list)

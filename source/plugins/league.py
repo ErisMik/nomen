@@ -119,7 +119,7 @@ def test_for_recent_game(api_key, summoner_id):
     time_since = time_since / 60  # Convert to minutes
     # print "time since in m: " + str(time_since)
     # print "=========="
-    time_since += 25  # Testing makes it seem that league is off by about 25 minutes? Harcoding the patch
+    time_since += 20  # Testing makes it seem that league is off by about 25/20/55 minutes? Harcoding the patch
 
     # Determine what status to return to the user
     response = "Offline"
