@@ -8,7 +8,6 @@ Python 2.7
 import requests
 import time
 import collections
-from library import tools
 
 # Constants
 GET_RECENT_GAMES_URL = ("https://na.api.pvp.net/api/lol/na/v1.3/game/by-summoner/{summonid}/recent"+
@@ -120,6 +119,7 @@ def test_for_recent_game(api_key, summoner_id):
     time_since = time_since / 60  # Convert to minutes
     # print "time since in m: " + str(time_since)
     # print "=========="
+    time_since += 20  # Testing makes it seem that league is off by about 25/20/55 minutes? Harcoding the patch
 
     # Determine what status to return to the user
     response = "Offline"
@@ -148,12 +148,14 @@ def get_all_friend_statuses(api_key, summoner_id):
 
     # Check if the friends are currently in game, and set status
     for friend in friend_data:
+        # TODO: Make the delay as efficient as possible
+        time.sleep(2)  # This is a quick and dirty way to prevent me from breaching the 10 api calls per 10 seconds rule
         friend_data[friend]["status"] = test_for_current_game(api_key, friend)
 
     # Check the friends most recent game, and set status based on that
     for friend in friend_data:
         # TODO: Make the delay as efficient as possible
-        time.sleep(5)  # This is a quick and dirty way to prevent me from breaching the 10 api calls per 10 seconds rule
+        time.sleep(2)  # This is a quick and dirty way to prevent me from breaching the 10 api calls per 10 seconds rule
         new_status = test_for_recent_game(api_key, friend)
         if "In game" not in friend_data[friend]["status"]:
             friend_data[friend]["status"] = new_status

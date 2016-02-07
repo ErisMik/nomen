@@ -49,7 +49,7 @@ February 3rd, 2016
 - Implementing changes in order to get py2app working so that I can distribute my application easier
 - testing getting py2app working, unsuccessful getting a working build but making progress
 
-Febuary 4th, 2016
+February 4th, 2016
 - Added the actual code to get the set friends for the league api
 - Tried bug fixing the read files
 - Bug turned out to be that the league api limits me to 10 api calls per 10 seconds, and I've violated that by accidently having more than 4 friends
@@ -58,3 +58,12 @@ Febuary 4th, 2016
 - Python is basically cheating
 - Improving the API calls using qeues
 - GIT Exploded so I just moved all my code to the master branch and deleted the other branches
+
+February 5th, 2016
+- Branched my git code to begin working on the plugins feature of the program
+- League appears to be some minutes ahead of my computer? Will need to hardcode in an adjustment
+
+February 7th, 2016
+- Continued to work on the plugins system
+- Determined how to dynamically import modules
+- 
