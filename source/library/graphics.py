@@ -119,21 +119,24 @@ class AppWindow(tk.Frame):
         self.view_list = tk.Listbox(self, selectmode=tk.BROWSE, bg=bg_colour)
         self.view_list.grid(column=1, row=1, sticky=tk.N+tk.S+tk.E+tk.W)
 
-    def update_statuses(self, current_data):
+    def update_statuses(self, current_data, by_service=True):
         """Updates the list box (self.view_list) with the current entries"""
-        # Sort the data alphanumerically
-        for service in current_data:
-            current_data[service] = sorted(current_data[service])
+        if by_service:
+            # Sort the data alphanumerically
+            for service in current_data:
+                current_data[service] = sorted(current_data[service])
 
-        self.view_list.delete(0, tk.END)  # Clear the list of it's entries
+            self.view_list.delete(0, tk.END)  # Clear the list of it's entries
 
-        # Print the statuses of every service here
-        for service in current_data:
-            self.view_list.insert(tk.END, "------------------------ %s ----------------------" % service.capitalize())
-            for friend in current_data[service]:
-                string = "{0} ({1})".format(friend[0], friend[2])
-                self.view_list.insert(tk.END, string)
-            print "%s printed" % service
+            # Print the statuses of every service here
+            for service in current_data:
+                self.view_list.insert(tk.END, "------------------------ %s ----------------------" % service.capitalize())
+                for friend in current_data[service]:
+                    string = "{0} ({1})".format(friend[0], friend[2])
+                    self.view_list.insert(tk.END, string)
+                print "%s printed" % service
+        else:
+            print "Not yet implemented"
 
         print "============== Update Cycle Finish =============="
 

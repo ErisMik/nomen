@@ -18,3 +18,7 @@ def get_auth_key(service_name, file_path):
         if service_name.lower() in keys[X].lower():
             # print keys[X+1].strip()
             return keys[X+1].strip()
+
+def sort_by_person():
+    """Gets a dict of statuses and sorts them by an assigned name"""
+    print "oops"
