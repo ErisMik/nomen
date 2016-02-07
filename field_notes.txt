@@ -71,3 +71,4 @@ February 7th, 2016
 - Dynamically printed the statuses into main window
 - This changed the headers of the sections as they are no longer hardcoded, I will need to pass along an additional piece of information
 - Minor cleanup
+- Started working on the sorting system
