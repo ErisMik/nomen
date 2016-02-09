@@ -71,3 +71,12 @@ February 7th, 2016
 - Dynamically printed the statuses into main window
 - This changed the headers of the sections as they are no longer hardcoded, I will need to pass along an additional piece of information
 - Minor cleanup
+
+February 8th, 2016
+- Worked on the new sorting method
+
+February 9th, 2016
+- Continued to work on the new sorting method
+- Tested it by passing in Null data and poorley handling it :P
+- THe whole program is very inefficient, rather than storing data that doesn't change in reads/calculates it every update cycle. This means changes can be made on the fly... It's a feature not a bug!!!
+- 
