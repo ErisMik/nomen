@@ -28,5 +28,9 @@ def sort_by_person(input_status_dict):
         for line in map_file:
             data = line.split("=")
             friend_map[data[0].strip()] = ast.literal_eval(data[1].strip())
-    print friend_map
 
+    output_list = {}
+    for friend in friend_map:
+        for service in input_status_dict:
+            if service in friend_map[friend]:
+                print "Friend: %s, Service: %s" % (friend, service)
