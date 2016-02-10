@@ -31,6 +31,12 @@ def sort_by_person(input_status_dict):
 
     output_list = {}
     for friend in friend_map:
+        output_list[friend] = {}
         for service in input_status_dict:
-            if service in friend_map[friend]:
-                print "Friend: %s, Service: %s" % (friend, service)
+            for user in input_status_dict[service]:
+                if user[1] in friend_map[friend][service]:
+                    output_list[friend][service] = user
+                else:
+                    # TODO: Find a way to get the unassigned people together
+                    pass
+    return output_list

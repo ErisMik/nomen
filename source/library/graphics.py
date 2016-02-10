@@ -136,7 +136,17 @@ class AppWindow(tk.Frame):
                     self.view_list.insert(tk.END, string)
                 print "%s printed" % service
         else:
-            print "Not yet implemented"
+            # Sort the data according to the friend map
+            current_data = tools.sort_by_person(current_data)
+
+            self.view_list.delete(0, tk.END)  # Clear the list of it's entries
+
+            for friend in current_data:
+                self.view_list.insert(tk.END, "------------------------ %s ----------------------" % friend.capitalize())
+                for service in current_data[friend]:
+                    string = "{0} ({1})".format(current_data[friend][service][0], current_data[friend][service][2])
+                    self.view_list.insert(tk.END, string)
+                print "%s printed" % friend
 
         print "============== Update Cycle Finish =============="
 
@@ -205,5 +215,5 @@ class AppManager():
                 print("... %s updated" % module)
 
             # Add the statuses to the window, then create a job to do this again in 10 seconds
-            self.main_window.update_statuses(all_status_list)
+            self.main_window.update_statuses(all_status_list, False)
             time.sleep(delay)
