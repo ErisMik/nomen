@@ -12,6 +12,9 @@ import library.tools as tools
 
 class AppWindow(tk.Frame):
     """Class that defines the main view window of the application"""
+    # Gross call variables :/
+    sort_by_service = True
+
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         self.configure_frame()  # Configure the window frame
@@ -105,12 +108,14 @@ class AppWindow(tk.Frame):
 
         # Create the button and add it to the grid
         self.app_sort_button = tk.Button(self.sort_panel, text="Application",
-                                         bg=bg_colour, highlightbackground=bg_colour)
+                                         bg=bg_colour, highlightbackground=bg_colour,
+                                         command=lambda: self.toggle_sort_by(True))
         self.app_sort_button.grid(column=1, row=0, sticky=tk.N+tk.S+tk.E+tk.W)
 
         # Create the button and add it to the grid
         self.person_sort_button = tk.Button(self.sort_panel, text="Person",
-                                            bg=bg_colour, highlightbackground=bg_colour)
+                                            bg=bg_colour, highlightbackground=bg_colour,
+                                            command=lambda: self.toggle_sort_by(False))
         self.person_sort_button.grid(column=2, row=0, sticky=tk.N+tk.S+tk.E+tk.W)
 
     def view_list_widget(self, bg_colour="#808080"):
@@ -119,21 +124,40 @@ class AppWindow(tk.Frame):
         self.view_list = tk.Listbox(self, selectmode=tk.BROWSE, bg=bg_colour)
         self.view_list.grid(column=1, row=1, sticky=tk.N+tk.S+tk.E+tk.W)
 
-    def update_statuses(self, current_data):
+    def toggle_sort_by(self, new):
+        """Sets the sort by boolean to a different boolean"""
+        print "Sort by %s -> %s" % (AppWindow.sort_by_service, new)
+        AppWindow.sort_by_service = new
+        print AppWindow.sort_by_service
+
+    def update_statuses(self, current_data, by_service=sort_by_service):
         """Updates the list box (self.view_list) with the current entries"""
-        # Sort the data alphanumerically
-        for service in current_data:
-            current_data[service] = sorted(current_data[service])
+        if by_service:
+            # Sort the data alphanumerically
+            for service in current_data:
+                current_data[service] = sorted(current_data[service])
 
-        self.view_list.delete(0, tk.END)  # Clear the list of it's entries
+            self.view_list.delete(0, tk.END)  # Clear the list of it's entries
 
-        # Print the statuses of every service here
-        for service in current_data:
-            self.view_list.insert(tk.END, "------------------------ %s ----------------------" % service.capitalize())
-            for friend in current_data[service]:
-                string = "{0} ({1})".format(friend[0], friend[2])
-                self.view_list.insert(tk.END, string)
-            print "%s printed" % service
+            # Print the statuses of every service here
+            for service in current_data:
+                self.view_list.insert(tk.END, "------------------------ %s ----------------------" % service.capitalize())
+                for friend in current_data[service]:
+                    string = "{0} ({1})".format(friend[0], friend[2])
+                    self.view_list.insert(tk.END, string)
+                print "%s printed" % service
+        else:
+            # Sort the data according to the friend map
+            current_data = tools.sort_by_person(current_data)
+
+            self.view_list.delete(0, tk.END)  # Clear the list of it's entries
+
+            for friend in current_data:
+                self.view_list.insert(tk.END, "------------------------ %s ----------------------" % friend.capitalize())
+                for service in current_data[friend]:
+                    string = "{0} ({1})".format(current_data[friend][service][0], current_data[friend][service][2])
+                    self.view_list.insert(tk.END, string)
+                print "%s printed" % friend
 
         print "============== Update Cycle Finish =============="
 
