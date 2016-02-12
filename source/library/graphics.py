@@ -128,10 +128,10 @@ class AppWindow(tk.Frame):
         """Sets the sort by boolean to a different boolean"""
         print "Sort by %s -> %s" % (AppWindow.sort_by_service, new)
         AppWindow.sort_by_service = new
-        print AppWindow.sort_by_service
 
-    def update_statuses(self, current_data, by_service=sort_by_service):
+    def update_statuses(self, current_data):
         """Updates the list box (self.view_list) with the current entries"""
+        by_service = AppWindow.sort_by_service
         if by_service:
             # Sort the data alphanumerically
             for service in current_data:

@@ -71,9 +71,7 @@ February 7th, 2016
 - Dynamically printed the statuses into main window
 - This changed the headers of the sections as they are no longer hardcoded, I will need to pass along an additional piece of information
 - Minor cleanup
-<<<<<<< HEAD
 - Started working on the sorting system
-=======
 
 February 8th, 2016
 - Worked on the new sorting method
@@ -87,4 +85,6 @@ February 9th, 2016
 
 February 10th, 2016
 - Worked on getting the buttons working
->>>>>>> origin/sorting
+- THey work, I think. I can't properly test it at school so I'm just crossing my fingers
+- It doesn't work in a live setting, I think it's because I'm setting the variable in the aarguments??? Why I decided to do this I dunno, attempting a fix
+- It works!!! Tested and everything. Sorintg is now 97.6% complete!
