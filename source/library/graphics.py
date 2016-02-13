@@ -59,9 +59,13 @@ class AppWindow(tk.Frame):
 
     def service_panel_widget(self, bg_colour="#000000"):
         """Method that creates, configures and fills the service widget"""
-        # Create the panel and stickie it to the full grid cell
+        # Create the whole panel and stickie it to the full grid cell
         self.service_panel = tk.Frame(self, bg=bg_colour)
         self.service_panel.grid(column=0, row=1, sticky=tk.N+tk.S+tk.E+tk.W)
+
+        # Create the filter button panel
+        self.filter_panel = tk.Frame(self.service_panel, bg=bg_colour)
+        self.filter_panel.grid(column=0, row=0, sticky=tk.N+tk.S+tk.E+tk.W)
 
         # Configure the grid weights
         self.service_panel.rowconfigure(0, weight=1)
@@ -73,18 +77,18 @@ class AppWindow(tk.Frame):
         self.steam_icon = tk.PhotoImage(file=image_path)
         self.steam_icon = self.steam_icon.subsample(24, 24)  # Roughly 1024 / 50
 
-        # image_path = os.path.abspath("files/league.gif")
-        # self.league_icon = tk.PhotoImage(file=image_path)
-        # self.league_icon = self.league_icon.subsample(24, 24)  # Roughly 1024 / 50
+        image_path = os.path.abspath("files/league.gif")
+        self.league_icon = tk.PhotoImage(file=image_path)
+        self.league_icon = self.league_icon.subsample(24, 24)  # Roughly 1024 / 50
 
-        # Create the button and add it to the grid
-        self.steam_button = tk.Button(self.service_panel, image=self.steam_icon,
+        # Create the buttons and add it to the grid
+        self.steam_button = tk.Button(self.filter_panel, image=self.steam_icon,
                                       bg=bg_colour, highlightbackground=bg_colour)
         self.steam_button.grid(column=0, row=0, sticky=tk.N+tk.W+tk.E)
 
-        # self.steam_button = tk.Button(self.service_panel, image=self.league_icon,
-        #                               bg=bg_colour, highlightbackground=bg_colour)
-        # self.steam_button.grid(column=0, row=0, sticky=tk.N+tk.W+tk.E)
+        self.league_button = tk.Button(self.filter_panel, image=self.league_icon,
+                                       bg=bg_colour, highlightbackground=bg_colour)
+        self.league_button.grid(column=0, row=1, sticky=tk.N+tk.W+tk.E)
 
         # Create the button and add it to the grid
         self.add_button = tk.Button(self.service_panel, text="+",

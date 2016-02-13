@@ -88,3 +88,6 @@ February 10th, 2016
 - THey work, I think. I can't properly test it at school so I'm just crossing my fingers
 - It doesn't work in a live setting, I think it's because I'm setting the variable in the aarguments??? Why I decided to do this I dunno, attempting a fix
 - It works!!! Tested and everything. Sorintg is now 97.6% complete!
+
+February 13th, 2016
+- Starting to work on the filtering system
