@@ -91,3 +91,4 @@ February 10th, 2016
 
 February 13th, 2016
 - Starting to work on the filtering system
+- Got a rudementary filter system working, but it needs some polishing

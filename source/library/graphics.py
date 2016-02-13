@@ -14,10 +14,15 @@ class AppWindow(tk.Frame):
     """Class that defines the main view window of the application"""
     # Gross call variables :/
     sort_by_service = True
+    service_filter = {}
 
-    def __init__(self, master):
+    def __init__(self, master, plugin_list):
         tk.Frame.__init__(self, master)
         self.configure_frame()  # Configure the window frame
+
+        # Formulate the filter dictionary, set to true by default
+        for plugin in plugin_list:
+            AppWindow.service_filter[plugin] = True
 
         # Add the rest of the widgets
         self.option_panel_widget()
@@ -83,11 +88,13 @@ class AppWindow(tk.Frame):
 
         # Create the buttons and add it to the grid
         self.steam_button = tk.Button(self.filter_panel, image=self.steam_icon,
-                                      bg=bg_colour, highlightbackground=bg_colour)
+                                      bg=bg_colour, highlightbackground=bg_colour,
+                                      command=lambda: self.toggle_filter("steam"))
         self.steam_button.grid(column=0, row=0, sticky=tk.N+tk.W+tk.E)
 
         self.league_button = tk.Button(self.filter_panel, image=self.league_icon,
-                                       bg=bg_colour, highlightbackground=bg_colour)
+                                       bg=bg_colour, highlightbackground=bg_colour,
+                                       command=lambda: self.toggle_filter("league"))
         self.league_button.grid(column=0, row=1, sticky=tk.N+tk.W+tk.E)
 
         # Create the button and add it to the grid
@@ -133,6 +140,11 @@ class AppWindow(tk.Frame):
         print "Sort by %s -> %s" % (AppWindow.sort_by_service, new)
         AppWindow.sort_by_service = new
 
+    def toggle_filter(self, service):
+        """Flips the boolean state of a service given it's name"""
+        AppWindow.service_filter[service] = not AppWindow.service_filter[service]
+        print "%s filter set to %s" % (service, AppWindow.service_filter[service])
+
     def update_statuses(self, current_data):
         """Updates the list box (self.view_list) with the current entries"""
         by_service = AppWindow.sort_by_service
@@ -145,10 +157,11 @@ class AppWindow(tk.Frame):
 
             # Print the statuses of every service here
             for service in current_data:
-                self.view_list.insert(tk.END, "------------------------ %s ----------------------" % service.capitalize())
-                for friend in current_data[service]:
-                    string = "{0} ({1})".format(friend[0], friend[2])
-                    self.view_list.insert(tk.END, string)
+                if AppWindow.service_filter[service]:
+                    self.view_list.insert(tk.END, "------------------------ %s ----------------------" % service.capitalize())
+                    for friend in current_data[service]:
+                        string = "{0} ({1})".format(friend[0], friend[2])
+                        self.view_list.insert(tk.END, string)
                 print "%s printed" % service
         else:
             # Sort the data according to the friend map
@@ -159,8 +172,9 @@ class AppWindow(tk.Frame):
             for friend in current_data:
                 self.view_list.insert(tk.END, "------------------------ %s ----------------------" % friend.capitalize())
                 for service in current_data[friend]:
-                    string = "{0} ({1})".format(current_data[friend][service][0], current_data[friend][service][2])
-                    self.view_list.insert(tk.END, string)
+                    if AppWindow.service_filter[service]:
+                        string = "{0} ({1})".format(current_data[friend][service][0], current_data[friend][service][2])
+                        self.view_list.insert(tk.END, string)
                 print "%s printed" % friend
 
         print "============== Update Cycle Finish =============="
@@ -186,21 +200,21 @@ class OptionWindow(tk.Frame):
 class AppManager():
     """Class that manages the application and it's windows"""
     def __init__(self):
-        # Create a root window and add the application window as it's child
-        self.root = tk.Tk()
-        self.main_window = AppWindow(self.root)  # Create the ain window
-        self.main_window.pack(side="top", fill="both", expand=True)  # Add it to the root frame
-
         # Read all the plugin names
         plugin_list = []
-        for file in os.listdir("./plugins"):
-            if file.endswith(".py") and "__init__" not in file:
-                plugin_list.append(file.split(".")[0])
+        for file_name in os.listdir("./plugins"):
+            if file_name.endswith(".py") and "__init__" not in file_name:
+                plugin_list.append(file_name.split(".")[0])
 
         # Import the plugins from the plugin names
         self.service_modules = {}
         for plugin_name in plugin_list:
             self.service_modules[plugin_name] = __import__("plugins.{0}".format(plugin_name), fromlist=["plugins"])
+
+        # Create a root window and add the application window as it's child
+        self.root = tk.Tk()
+        self.main_window = AppWindow(self.root, plugin_list)  # Create the ain window
+        self.main_window.pack(side="top", fill="both", expand=True)  # Add it to the root frame
 
         # Attempting to thread the update cycle
         try:
