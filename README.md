@@ -1,6 +1,9 @@
-Notify-Me
-=========
-Program for my Computer Science IA
+Nomen
+=====
+No-me-n
+__No__tify __Me__ __N__ow
+
+AKA The Program for my Computer Science IA
 
 ### Description
 Acts as a hub for online statuses. It grabs them from their respective APIs and shows them in a graphical interface.
