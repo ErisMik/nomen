@@ -77,5 +77,5 @@ Temporary Items
 
 
 ### Custom User Ignores ###
-*_private.*
+# *_private.*
 *.pyc
