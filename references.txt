@@ -24,3 +24,4 @@ Image References
 
 Tutorial References
 - TKinter tutorial (http://infohost.nmt.edu/tcc/help/pubs/tkinter/web/index.html)
+- Python Docs (https://docs.python.org/2/)

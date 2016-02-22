@@ -3,11 +3,11 @@
 {\colortbl;\red255\green255\blue255;\red79\green129\blue189;}
 {\info
 {\author RichardT}
-{\*\company  }}\paperw11900\paperh16840\margl1440\margr1440\vieww12500\viewh14500\viewkind1
+{\*\company  }}\paperw11900\paperh16840\margl1440\margr1440\vieww13400\viewh14500\viewkind1
 \deftab720
 \pard\pardeftab720\ri-6\sl276\slmult1\sb200\qc\partightenfactor0
 
-\f0\b\fs26 \cf2 Criterion C: Development\
+\f0\b\fs26 \cf2 ICriterion C: Development\
 \pard\pardeftab720\ri-6\sl276\slmult1\sa200\partightenfactor0
 
 \f1\b0\fs22 \cf0 \
@@ -18,4 +18,8 @@ The API calls themselves caused trouble while I was programming. In order to pro
 \
 All these API calls requires a lot of prior knownledge, such as the username of the user, and other predefined friends lists or data. In order to make the application as user friendly as possible, this data can be edited in three ways. The first is a small setup script that prompts the user for data then inputs the data into the appropriate files. This setup script is run the first time the program is run. The second way to edit the data is by directly modifying the files themselves. Most data is stored as plain text, and thus can be modified with simple and widespread programs. This does leave room for the user to make mistakes and break the program. There is currently no way to repair the files so this method is discouraged. The third and final method to edit the data is with the options window in the program. This method will be what the user will use the most, and it fits with the design of the rest of the program.\
 \
-The user statuses are output into an listbox format. From there the user can modify the sorting and filtering. The first sorting method is by service. From each service, it creates a section that shows the username and status\'85}
+The user statuses are output into an listbox format. From there the user can modify the sorting and filtering. The first sorting method is by service. From each service, it creates a section that shows the username and status. The user can sort it that way, or sort it by person. To sort by person, the user must first define a list of people, and the usernames they go by. This is stored in a file, and is parsed when the application goes to sort the data. Additionally, the user can filter out results by clicking on the logo buttons in the left column. This is done through an if statement in the sorting method. The sorting methods are stored in the tools module despite only being used by the graphics module. See screenshot1.png.\
+\
+The program was designed to be as modular as possible. They\'92re are 3 main parts to the source program. The \'93main.py\'94 file, the library directory, and the plugins directory. The library directory contains two files, \'93graphics.py\'94 and \'93tools.py\'94. The plugins directory contains all the \'93.py\'94 files that define the modules for all the service APIs. The program works when you call the \'93main.py\'94 file. It sets up an instance of the AppManager, which in turn sets up an instance of the AppWindow (The GUI). The AppManager then starts up the thread that makes the API calls. The program determines what services to use by walking through the plugins directory, and it attempts to use each file in the folder as an API module. The plugins folder allows the user to customize what items they want to use. All other files, such as data files, images etc. are stored in another directory called \'93files\'94. A flowchart of the logic order of the program is available in \'93logic_flow.png\'94.\
+\
+To make the product easier for the user to use, the program is packed up into a single executable, on Windows it is \'93nomen.exe\'94 and on OSX it is \'93nomen.app\'94. On Linux, the program is compiled into c files, but still must be executed by command line.}
