@@ -15,6 +15,7 @@ class AppWindow(tk.Frame):
     # Gross call variables :/
     sort_by_service = True
     service_filter = {}
+    plugin_list = []
 
     def __init__(self, master, plugin_list):
         tk.Frame.__init__(self, master)
@@ -23,6 +24,7 @@ class AppWindow(tk.Frame):
         # Formulate the filter dictionary, set to true by default
         for plugin in plugin_list:
             AppWindow.service_filter[plugin] = True
+        AppWindow.plugin_list = plugin_list
 
         # Add the rest of the widgets
         self.option_panel_widget()
@@ -77,30 +79,59 @@ class AppWindow(tk.Frame):
         self.service_panel.columnconfigure(0, weight=1)
         self.service_panel.rowconfigure(1, weight=0)
 
-        # Process the image icons
-        image_path = os.path.abspath("files/steam.gif")
-        self.steam_icon = tk.PhotoImage(file=image_path)
-        self.steam_icon = self.steam_icon.subsample(24, 24)  # Roughly 1024 / 50
+        self.image_path_lists = {}
+        self.filter_buttons = {}
 
-        image_path = os.path.abspath("files/league.gif")
-        self.league_icon = tk.PhotoImage(file=image_path)
-        self.league_icon = self.league_icon.subsample(24, 24)  # Roughly 1024 / 50
+        # Get all the images
+        for plugin in AppWindow.plugin_list:
+            # Process the image icons
+            image_path = os.path.abspath("files/%s.gif" % plugin)
+            self.image_path_lists[plugin] = tk.PhotoImage(file=image_path)
+            self.image_path_lists[plugin] = self.image_path_lists[plugin].subsample(24, 24)  # Roughly 1024 / 50
 
-        # Create the buttons and add it to the grid
-        self.steam_button = tk.Button(self.filter_panel, image=self.steam_icon,
-                                      bg=bg_colour, highlightbackground=bg_colour,
-                                      command=lambda: self.toggle_filter("steam"))
-        self.steam_button.grid(column=0, row=0, sticky=tk.N+tk.W+tk.E)
+        # Create the buttons, add to grid
+        for plugin in AppWindow.plugin_list:
+            # Create the buttons and add it to the grid
+            print plugin
 
-        self.league_button = tk.Button(self.filter_panel, image=self.league_icon,
-                                       bg=bg_colour, highlightbackground=bg_colour,
-                                       command=lambda: self.toggle_filter("league"))
-        self.league_button.grid(column=0, row=1, sticky=tk.N+tk.W+tk.E)
+            self.filter_buttons[plugin] = filter_button(self.filter_panel,
+                                                        image=self.image_path_lists[plugin],
+                                                        bg=bg_colour,
+                                                        filter_tag=plugin,
+                                                        instance=self)
+
+            x = 0
+        for button in self.filter_buttons:
+            self.filter_buttons[button].grid(column=0, row=x, sticky=tk.N+tk.W+tk.E)
+            x += 1
+
+        # # Process the image icons
+        # image_path = os.path.abspath("files/steam.gif")
+        # self.steam_icon = tk.PhotoImage(file=image_path)
+        # self.steam_icon = self.steam_icon.subsample(24, 24)  # Roughly 1024 / 50
+
+        # image_path = os.path.abspath("files/league.gif")
+        # self.league_icon = tk.PhotoImage(file=image_path)
+        # self.league_icon = self.league_icon.subsample(24, 24)  # Roughly 1024 / 50
+
+        # # Create the buttons and add it to the grid
+        # self.steam_button = tk.Button(self.filter_panel, image=self.steam_icon,
+        #                               bg=bg_colour, highlightbackground=bg_colour,
+        #                               command=lambda: self.toggle_filter("steam", self.steam_button))
+        # self.steam_button.grid(column=0, row=0, sticky=tk.N+tk.W+tk.E)
+
+        # self.league_button = tk.Button(self.filter_panel, image=self.league_icon,
+        #                                bg=bg_colour, highlightbackground=bg_colour,
+        #                                command=lambda: self.toggle_filter("league", self.league_button))
+        # self.league_button.grid(column=0, row=1, sticky=tk.N+tk.W+tk.E)
 
         # Create the button and add it to the grid
         self.add_button = tk.Button(self.service_panel, text="+",
                                     bg=bg_colour, highlightbackground=bg_colour)
         self.add_button.grid(column=0, row=1, sticky=tk.N+tk.S+tk.E+tk.W)
+
+    def test_print(self, line):
+        print line
 
     def sort_panel_widget(self, bg_colour="#1A324C", fg_colour="#FFFFFF"):
         """Method that creates, configures and fills the panel widget"""
@@ -140,9 +171,13 @@ class AppWindow(tk.Frame):
         print "Sort by %s -> %s" % (AppWindow.sort_by_service, new)
         AppWindow.sort_by_service = new
 
-    def toggle_filter(self, service):
+    def toggle_filter(self, service, button):
         """Flips the boolean state of a service given it's name"""
         AppWindow.service_filter[service] = not AppWindow.service_filter[service]
+        if AppWindow.service_filter[service]:
+            button.config(highlightbackground="#000000")
+        else:
+            button.config(highlightbackground="#892A2A")
         print "%s filter set to %s" % (service, AppWindow.service_filter[service])
 
     def update_statuses(self, current_data):
@@ -179,23 +214,33 @@ class AppWindow(tk.Frame):
 
         print "============== Update Cycle Finish =============="
 
-class OptionWindow(tk.Frame):
-    """Class that defines the options window of the application"""
-    def __init__(self, master):
-        tk.Frame.__init__(self, master)
-        self.master.title("Options")
-        self.configure(background="#990099")
+class filter_button(tk.Button):
+    def __init__(self, parent, bg, image, filter_tag, instance):
+        self.filter_tage = filter_tag
+        tk.Button.__init__(self, 
+                           master=parent,
+                           image=image,
+                           bg=bg,
+                           highlightbackground=bg,
+                           command=lambda: instance.toggle_filter(self.filter_tage, self))
 
-        # Prepare the columns and rows
-        self.columnconfigure(0, minsize=500, weight=1)
-        self.rowconfigure(0, minsize=500, weight=1)
+# class OptionWindow(tk.Frame):
+#     """Class that defines the options window of the application"""
+#     def __init__(self, master):
+#         tk.Frame.__init__(self, master)
+#         self.master.title("Options")
+#         self.configure(background="#990099")
 
-        # Add the options
-        self.option_boxes()
+#         # Prepare the columns and rows
+#         self.columnconfigure(0, minsize=500, weight=1)
+#         self.rowconfigure(0, minsize=500, weight=1)
 
-    def option_boxes(self):
-        self.c = tk.Checkbutton(self.master, text="This is a Test")
-        self.c.grid(column=0, row=0, sticky=tk.N+tk.W+tk.E)
+#         # Add the options
+#         self.option_boxes()
+
+#     def option_boxes(self):
+#         self.c = tk.Checkbutton(self.master, text="This is a Test")
+#         self.c.grid(column=0, row=0, sticky=tk.N+tk.W+tk.E)
 
 class AppManager():
     """Class that manages the application and it's windows"""

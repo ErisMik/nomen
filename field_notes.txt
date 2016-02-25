@@ -92,3 +92,14 @@ February 10th, 2016
 February 13th, 2016
 - Starting to work on the filtering system
 - Got a rudementary filter system working, but it needs some polishing
+
+February 23rd, 2016
+- Improved the filtering system, now the buttons change colour based on wether the filter is active or not
+- Got to work on dynamically getting the filter buttons, got about half way
+
+February 24th, 2016
+- While trying to get the buttons to dynamically be found, I ran into problems with passing by refrence and passing by value, so I decided to create a new class to solve this issue. This is if I can't find another method to complete this.
+- Spent mny hours debugging
+
+February 25th, 2016
+- With the help of Peter Bohdan Yoséff Fajner, I debugged my class and now it works!

@@ -40,3 +40,4 @@ def sort_by_person(input_status_dict):
                     # TODO: Find a way to get the unassigned people together
                     pass
     return output_list
+
