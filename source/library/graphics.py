@@ -10,6 +10,7 @@ import thread
 import time
 import library.tools as tools
 
+
 class AppWindow(tk.Frame):
     """Class that defines the main view window of the application"""
     # Gross call variables :/
@@ -100,30 +101,11 @@ class AppWindow(tk.Frame):
                                                         filter_tag=plugin,
                                                         instance=self)
 
+        # Grid the buttons onto the corrent panel
             x = 0
         for button in self.filter_buttons:
             self.filter_buttons[button].grid(column=0, row=x, sticky=tk.N+tk.W+tk.E)
             x += 1
-
-        # # Process the image icons
-        # image_path = os.path.abspath("files/steam.gif")
-        # self.steam_icon = tk.PhotoImage(file=image_path)
-        # self.steam_icon = self.steam_icon.subsample(24, 24)  # Roughly 1024 / 50
-
-        # image_path = os.path.abspath("files/league.gif")
-        # self.league_icon = tk.PhotoImage(file=image_path)
-        # self.league_icon = self.league_icon.subsample(24, 24)  # Roughly 1024 / 50
-
-        # # Create the buttons and add it to the grid
-        # self.steam_button = tk.Button(self.filter_panel, image=self.steam_icon,
-        #                               bg=bg_colour, highlightbackground=bg_colour,
-        #                               command=lambda: self.toggle_filter("steam", self.steam_button))
-        # self.steam_button.grid(column=0, row=0, sticky=tk.N+tk.W+tk.E)
-
-        # self.league_button = tk.Button(self.filter_panel, image=self.league_icon,
-        #                                bg=bg_colour, highlightbackground=bg_colour,
-        #                                command=lambda: self.toggle_filter("league", self.league_button))
-        # self.league_button.grid(column=0, row=1, sticky=tk.N+tk.W+tk.E)
 
         # Create the button and add it to the grid
         self.add_button = tk.Button(self.service_panel, text="+",
@@ -214,7 +196,9 @@ class AppWindow(tk.Frame):
 
         print "============== Update Cycle Finish =============="
 
+
 class filter_button(tk.Button):
+    """Custom class to get around wierdness with pss by refrence and pass by value"""
     def __init__(self, parent, bg, image, filter_tag, instance):
         self.filter_tage = filter_tag
         tk.Button.__init__(self, 
@@ -223,6 +207,7 @@ class filter_button(tk.Button):
                            bg=bg,
                            highlightbackground=bg,
                            command=lambda: instance.toggle_filter(self.filter_tage, self))
+
 
 # class OptionWindow(tk.Frame):
 #     """Class that defines the options window of the application"""
@@ -241,6 +226,7 @@ class filter_button(tk.Button):
 #     def option_boxes(self):
 #         self.c = tk.Checkbutton(self.master, text="This is a Test")
 #         self.c.grid(column=0, row=0, sticky=tk.N+tk.W+tk.E)
+
 
 class AppManager():
     """Class that manages the application and it's windows"""

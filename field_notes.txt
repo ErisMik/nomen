@@ -103,3 +103,4 @@ February 24th, 2016
 
 February 25th, 2016
 - With the help of Peter Bohdan Yoséff Fajner, I debugged my class and now it works!
+- The filter buttons are now dynamically generated :)
