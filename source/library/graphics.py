@@ -17,6 +17,7 @@ class AppWindow(tk.Frame):
     sort_by_service = True
     service_filter = {}
     plugin_list = []
+    status_data = {}
 
     def __init__(self, master, plugin_list):
         tk.Frame.__init__(self, master)
@@ -152,6 +153,7 @@ class AppWindow(tk.Frame):
         """Sets the sort by boolean to a different boolean"""
         print "Sort by %s -> %s" % (AppWindow.sort_by_service, new)
         AppWindow.sort_by_service = new
+        self.update_statuses()
 
     def toggle_filter(self, service, button):
         """Flips the boolean state of a service given it's name"""
@@ -161,9 +163,15 @@ class AppWindow(tk.Frame):
         else:
             button.config(highlightbackground="#892A2A")
         print "%s filter set to %s" % (service, AppWindow.service_filter[service])
+        self.update_statuses()
 
-    def update_statuses(self, current_data):
+    def update_data(self, current_data):
+        """Updates the status data"""
+        AppWindow.status_data = current_data
+
+    def update_statuses(self):
         """Updates the list box (self.view_list) with the current entries"""
+        current_data = AppWindow.status_data
         by_service = AppWindow.sort_by_service
         if by_service:
             # Sort the data alphanumerically
@@ -193,8 +201,6 @@ class AppWindow(tk.Frame):
                         string = "{0} ({1})".format(current_data[friend][service][0], current_data[friend][service][2])
                         self.view_list.insert(tk.END, string)
                 print "%s printed" % friend
-
-        print "============== Update Cycle Finish =============="
 
 
 class filter_button(tk.Button):
@@ -275,5 +281,7 @@ class AppManager():
                 print("... %s updated" % module)
 
             # Add the statuses to the window, then create a job to do this again in 10 seconds
-            self.main_window.update_statuses(all_status_list)
+            self.main_window.update_data(all_status_list)
+            self.main_window.update_statuses()
+            print "============== Update Cycle Finish =============="
             time.sleep(delay)
