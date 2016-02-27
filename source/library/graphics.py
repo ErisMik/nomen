@@ -198,7 +198,9 @@ class AppWindow(tk.Frame):
                 self.view_list.insert(tk.END, "------------------------ %s ----------------------" % friend.capitalize())
                 for service in current_data[friend]:
                     if AppWindow.service_filter[service]:
-                        string = "{0} ({1})".format(current_data[friend][service][0], current_data[friend][service][2])
+                        string = "[{2}] {0} ({1})".format(current_data[friend][service][0],
+                                                          current_data[friend][service][2],
+                                                          service)
                         self.view_list.insert(tk.END, string)
                 print "%s printed" % friend
 

@@ -39,5 +39,6 @@ def sort_by_person(input_status_dict):
                 else:
                     # TODO: Find a way to get the unassigned people together
                     pass
+    # print output_list
     return output_list
 
