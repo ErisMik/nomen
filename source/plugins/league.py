@@ -16,7 +16,8 @@ GET_SUMMONER_DATA_URL = ("https://na.api.pvp.net/api/lol/na/v1.4/summoner/{summo
                          "?api_key={key}")
 GET_SUMMONER_ID_URL = ("https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/{name}"+
                        "?api_key={key}")
-GET_CURRENT_GAME_URL = ("https://na.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/NA1/{summonid}"+
+GET_CURRENT_GAME_URL = ("https://na.api.pvp.net/observer-mode/rest/consumer/"+
+                        "getSpectatorGameInfo/NA1/{summonid}"+
                         "?api_key={key}")
 
 def get_friends_from_id(api_key, summoner_id):
@@ -32,7 +33,8 @@ def get_friends_from_id(api_key, summoner_id):
 
     # Find duplicates and keep them because they're assumed friends
     # TODO: Extremely iniffecient, replace soon
-    all_friends = [item for item, count in collections.Counter(all_fellow_players).items() if count > 1]
+    all_friends = [item for item,
+                   count in collections.Counter(all_fellow_players).items() if count > 1]
     for x in range(0, len(all_friends)):
         all_friends[x] = str(all_friends[x])
 

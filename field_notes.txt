@@ -106,3 +106,6 @@ February 25th, 2016
 - The filter buttons are now dynamically generated :)
 - Started to work on making the buttons take effect instantly rather than waiting for the next API call update
 - Changed how the update cycle works, so that the filter buttons now take effect almost instantly
+
+February 26th, 2016
+- Code cleanup and documentation updates
