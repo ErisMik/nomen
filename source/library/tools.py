@@ -6,6 +6,39 @@ Python 2.7
 
 import ast
 
+def read_conf_file(file_path):
+    """Reads the configuration file and returns all the data"""
+    out_data = {}
+    with open(file_path, 'r') as conf_file:
+        for line in conf_file:
+            key_val = line.split(" == ")
+            out_data[key_val[0]] = key_val[1]
+    return out_data
+
+def read_conf_value(key_name, file_path):
+    """Reads the configuration file and returns the value of the specified key"""
+    with open(file_path, 'r') as conf_file:
+        for line in conf_file:
+            key_val = line.split(" == ")
+            if key_name in key_val[0]:
+                return key_val[1].strip()
+
+def write_conf_value(key_name, key_value, file_path):
+    """Writes a value to the configuration file"""
+    out_data = {}
+    with open(file_path, 'r') as conf_file:
+        for line in conf_file:
+            key_val = line.split(" == ")
+            if key_val[0] == key_name:
+                out_data[key_val[0]] = key_value
+            else:
+                out_data[key_val[0]] = key_val[1]
+
+    with open(file_path, 'w') as conf_file:
+        for key in out_data:
+            conf_file.write("{0} == {1}\n".format(key, out_data[key].strip()))
+    return True
+
 def get_auth_key(service_name, file_path):
     """Get the Auth key of a certain API from a file"""
     # Fill a list with the lines from the Authkeys file this ...
@@ -41,4 +74,3 @@ def sort_by_person(input_status_dict):
                     pass
     # print output_list
     return output_list
-

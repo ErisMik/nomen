@@ -20,7 +20,8 @@ class AppWindow(tk.Frame):
     status_data = {}
 
     def __init__(self, master, plugin_list):
-        tk.Frame.__init__(self, master)
+        self.master = master
+        tk.Frame.__init__(self, self.master)
         self.configure_frame()  # Configure the window frame
 
         # Formulate the filter dictionary, set to true by default
@@ -63,7 +64,8 @@ class AppWindow(tk.Frame):
 
         # Create the button and add it to the grid
         self.options_button = tk.Button(self.options_panel, image=self.options_icon,
-                                        bg=bg_colour, highlightbackground=bg_colour)
+                                        bg=bg_colour, highlightbackground=bg_colour,
+                                        command=self.options_window)
         self.options_button.grid(column=0, row=0, sticky=tk.N+tk.S+tk.E+tk.W)
 
     def service_panel_widget(self, bg_colour="#000000"):
@@ -112,9 +114,6 @@ class AppWindow(tk.Frame):
         self.add_button = tk.Button(self.service_panel, text="+",
                                     bg=bg_colour, highlightbackground=bg_colour)
         self.add_button.grid(column=0, row=1, sticky=tk.N+tk.S+tk.E+tk.W)
-
-    def test_print(self, line):
-        print line
 
     def sort_panel_widget(self, bg_colour="#1A324C", fg_colour="#FFFFFF"):
         """Method that creates, configures and fills the panel widget"""
@@ -169,6 +168,10 @@ class AppWindow(tk.Frame):
         """Updates the status data"""
         AppWindow.status_data = current_data
 
+    def options_window(self):
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = OptionWindow(self.newWindow)
+
     def update_statuses(self):
         """Updates the list box (self.view_list) with the current entries"""
         current_data = AppWindow.status_data
@@ -217,23 +220,51 @@ class filter_button(tk.Button):
                            command=lambda: instance.toggle_filter(self.filter_tage, self))
 
 
-# class OptionWindow(tk.Frame):
-#     """Class that defines the options window of the application"""
-#     def __init__(self, master):
-#         tk.Frame.__init__(self, master)
-#         self.master.title("Options")
-#         self.configure(background="#990099")
+class OptionWindow(tk.Frame):
+    """Class that defines the options window of the application"""
+    def __init__(self, master):
+        self.master = master
+        tk.Frame.__init__(self, master)
+        self.master.title("Options")
+        self.configure(background="#990099")
 
-#         # Prepare the columns and rows
-#         self.columnconfigure(0, minsize=500, weight=1)
-#         self.rowconfigure(0, minsize=500, weight=1)
+        # Prepare the columns and rows
+        self.columnconfigure(0, minsize=500, weight=1)
+        self.rowconfigure(0, minsize=500, weight=1)
 
-#         # Add the options
-#         self.option_boxes()
+        # Add the options
+        self.option_boxes()
 
-#     def option_boxes(self):
-#         self.c = tk.Checkbutton(self.master, text="This is a Test")
-#         self.c.grid(column=0, row=0, sticky=tk.N+tk.W+tk.E)
+    def option_boxes(self):
+        self.options_entry_list = []
+        self.options_label_list = []
+        conf_file_data = tools.read_conf_file("files/configuration.conf")
+
+        for key in conf_file_data:
+            self.options_label_list.append(key)
+            self.options_entry_list.append(tools.read_conf_value(key, "files/configuration.conf"))
+
+        for x in range(0, len(self.options_label_list)):
+            self.options_label_list[x] = tk.Label(self.master, text=self.options_label_list[x])
+            self.options_label_list[x].grid(column=0, row=x, sticky=tk.N+tk.W+tk.E)
+
+            temp_string = self.options_entry_list[x]
+            self.options_entry_list[x] = tk.Entry(self.master)
+            self.options_entry_list[x].insert(0, temp_string)
+            self.options_entry_list[x].grid(column=1, row=x, sticky=tk.N+tk.W+tk.E)
+
+        self.save_button = tk.Button(self.master,
+                                     text="Save & Exit",
+                                     command=self.save_options)
+        self.save_button.grid(column=0, row=len(self.options_label_list), sticky=tk.N+tk.W+tk.E)
+
+    def save_options(self):
+        for x in range(0, len(self.options_label_list)):
+            tools.write_conf_value(self.options_label_list[x].cget("text"),
+                                   self.options_entry_list[x].get(),
+                                   "files/configuration.conf")
+        print "Settings Saved"
+        self.master.destroy()
 
 
 class AppManager():
@@ -268,11 +299,10 @@ class AppManager():
         while True:
             all_status_list = {}
 
-            # TODO: Replace this with a function from library.tools 
-            ids = {
-                "steam" : "76561198041498934",
-                "league" : "36402541"
-            }
+            # Read the ids from the ocnfiguration file
+            ids = {}
+            for module in self.service_modules:
+                ids[module] = tools.read_conf_value(module, "files/configuration.conf")
 
             # Get the statuses from every module
             for module in self.service_modules:
