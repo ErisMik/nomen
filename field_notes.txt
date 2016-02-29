@@ -74,7 +74,7 @@ February 7th, 2016
 - Started working on the sorting system
 
 February 8th, 2016
-- Worked on the new sorting method
+- Worked on the new sorting method, got per person working but it needs improvment
 
 February 9th, 2016
 - Continued to work on the new sorting method
@@ -92,6 +92,7 @@ February 10th, 2016
 February 13th, 2016
 - Starting to work on the filtering system
 - Got a rudementary filter system working, but it needs some polishing
+- The filter system works through a simple if statement
 
 February 23rd, 2016
 - Improved the filtering system, now the buttons change colour based on wether the filter is active or not
@@ -99,13 +100,19 @@ February 23rd, 2016
 
 February 24th, 2016
 - While trying to get the buttons to dynamically be found, I ran into problems with passing by refrence and passing by value, so I decided to create a new class to solve this issue. This is if I can't find another method to complete this.
-- Spent mny hours debugging
+- Spent many hours debugging
 
 February 25th, 2016
-- With the help of Peter Bohdan Yoséff Fajner, I debugged my class and now it works!
+- With the help of Peter Bohdan Yoséff Fajner, I debugged my button class and now it works!
 - The filter buttons are now dynamically generated :)
 - Started to work on making the buttons take effect instantly rather than waiting for the next API call update
 - Changed how the update cycle works, so that the filter buttons now take effect almost instantly
 
 February 26th, 2016
-- Code cleanup and documentation updates
+- Made last minute changes to the options menu, in the hope to make it more dynamic. I still needs hardcoded values, which is not ideal. I'll fix this before I hand it in.
+- Code cleanup and documentation updates, to get ready to hand the IA in
+
+February 27th, 2016
+- Made a dynamically generated options menu, it works great, kinda
+- The options menu needs a graphical improvement
+
