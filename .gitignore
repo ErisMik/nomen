@@ -79,5 +79,5 @@ Temporary Items
 ### Custom User Ignores ###
 # *_private.*
 *.pyc
-*.mp4
-*.rtf
+*.c
+*.so

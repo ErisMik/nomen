@@ -273,7 +273,7 @@ class AppManager():
         # Read all the plugin names
         plugin_list = []
         for file_name in os.listdir("./plugins"):
-            if file_name.endswith(".py") and "__init__" not in file_name:
+            if file_name.endswith(".pyx") and "__init__" not in file_name:
                 plugin_list.append(file_name.split(".")[0])
 
         # Import the plugins from the plugin names
